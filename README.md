@@ -4,13 +4,13 @@
 
 > `data-edit=''`一定要写在 类名为`.template`的直接子元素中。
 
-```json
+```js
 [
   {
-    "className": "info"
+    className: "info"
   },
   {
-    "className2": "info2"
+    className2: "info2"
   }
   /**
       className: 需要修改标签的class;
