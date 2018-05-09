@@ -15,9 +15,13 @@
   /**
       className: 需要修改标签的class;
 
-      className格式: `edit-${className}`,
+      className格式: `edit-${className}-type`,
       如果需要修改图片：
-      className格式: `edit-img-${className}`,
+      className格式: `edit-img-${className}-type`,
+
+      "type":
+      1. text: <input type="text">;
+      2. textarea: <textarea></textarea>
 
       info: 修改内容的提示信息
    */
