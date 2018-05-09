@@ -14,19 +14,21 @@
   <!--模版-->
   <div class="template">
     <div class="header"
-         data-edit='[{"edit-title": "标题"}]'>
-      <div class="edit-title"></div>
+         data-edit='{"edit-title-text": "标题","edit-title2-text": "标题2"}'>
+      <div class="edit-title-text"></div>
+      <div class="edit-title2-text"></div>
     </div>
 
     <div class="content"
-         data-edit='[
-          {"edit-img":"轮播图片"},
-          {"edit-post": "文章内容"}
-         ]'
+         data-edit='{
+          "edit-image-image":"图片",
+          "edit-post-textarea": "文章内容"
+         }'
          style="border: 1px solid;">
-      <img class="edit-img"
+      <img class="edit-image-image"
            src="https://p3.ssl.qhimg.com/t0131e99ecb8067ed97.png">
-      <article class="edit-post"></article>
+      <article class="edit-post-textarea"></article>
+
     </div>
   </div>
 

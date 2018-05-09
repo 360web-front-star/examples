@@ -1,4 +1,4 @@
-😊
+😊😊😊😊😊😊
 
 ## data-edit 格式
 
@@ -15,13 +15,14 @@
   /**
       className: 需要修改标签的class;
 
-      className格式: `edit-${className}-type`,
-      如果需要修改图片：
-      className格式: `edit-img-${className}-type`,
+      className格式: `edit-${className}-type`
 
       "type":
-      1. text: <input type="text">;
-      2. textarea: <textarea></textarea>
+      1. text: 少许文字
+      2. textarea: 多行文字
+      3. list: 列表
+      4. image: 单个图片
+      5. imgages: 多图
 
       info: 修改内容的提示信息
    */
