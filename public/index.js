@@ -86,7 +86,7 @@ class V360 {
     let controlHtml = this.edit.html();
     let controlItem = `<div class="edit-item-type">
   <h4>${data}</h4>
-    <textarea cols="30" rows="10" class="${className}-control"></textarea>
+    <textarea cols="30" rows="10" placeholder="如果需要换行，可使用</br>" class="${className}-control"></textarea>
   </div>`;
     controlHtml += controlItem;
     this.edit.html(controlHtml);
@@ -104,18 +104,43 @@ class V360 {
 
   renderImages() {}
 
-  renderList() {}
+  renderList(className, data) {
+    let controlHtml = this.edit.html();
+    const list = Array.from($(`.${className} li`));
+    let controlItemH = `<div class="edit-item-type">
+  <h4>${data}</h4>`;
+
+    list.forEach((ele, index) => {
+      controlItemH += `
+      <input type="text" title=${data}-${index} class="${className}-control-${index}">
+      `;
+    });
+    controlHtml += controlItemH;
+    this.edit.html(controlHtml);
+  }
 
   changeView() {
     this.edit.on("input", ele => {
       const target = $(ele.target);
       const str = target.attr("class");
       const controlVal = target.val();
-      const viewClass = str.substr(0, str.length - 8);
-      if (this.getType(viewClass) === "image") {
+      let viewClass = str.substr(0, str.length - 8);
+
+      console.log(viewClass);
+
+      if (this.getType(viewClass) === this.type.image) {
         $(`.${viewClass}`).attr("src", controlVal);
+      } else if (this.getType(viewClass) === this.type.list) {
+        viewClass = str.substr(0, str.length - 10);
+        // TODO 安全验证！<script>注入
+        // 控制第几个input
+        const index = str.substr(str.length - 1, 1);
+        $(`.${viewClass}`)
+          .find("li")
+          .eq(index)
+          .text(controlVal);
       } else {
-        $(`.${viewClass}`).text(controlVal);
+        $(`.${viewClass}`).html(controlVal);
       }
     });
   }
