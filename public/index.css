@@ -2,13 +2,13 @@
   width: 80vw;
   float: left;
 }
-.container .template >.plugin-header {
+.container .template >.header {
   width: 800px;
   height: 48px;
   background-color: #808080;
   padding: 0 28px;
 }
-.container .template >.plugin-header >.edit-title {
+.container .template >.header >.edit-title {
   height: 48px;
   line-height: 48px;
 }
