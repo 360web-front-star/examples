@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="user-scalable=no, width=device-width">
+  <title>Index</title>
+  <link rel="stylesheet" href="./public/reset.css">
+  <link rel="stylesheet" href="./public/index.css">
+</head>
+<body>
+
+<div class="container">
+
+  <div class="template">
+
+    <div class="plugin-header"
+         data-edit='[{"edit-title": "标题"}]'>
+      <div class="edit-title"></div>
+    </div>
+
+    <div class="content"
+         data-edit='[
+          {"edit-img":"轮播图片"},
+          {"edit-post": "文章内容"}
+         ]'
+         style="border: 1px solid;">
+      <img class="edit-img"
+           src="https://p3.ssl.qhimg.com/t0131e99ecb8067ed97.png">
+      <article class="edit-post"></article>
+    </div>
+  </div>
+
+  <!--编辑控制-->
+  <div class="edit-container">
+    <div class="edit"></div>
+    <div class="submit">
+      <button class="submit">确认修改</button>
+      <button class="export">导出</button>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script src="./public/index.js"></script>
+</body>
+</html>
