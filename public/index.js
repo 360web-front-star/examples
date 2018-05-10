@@ -22,16 +22,6 @@ class V360 {
     this.changeView();
   }
 
-  checkClassName(className) {
-    const str = className.split("-");
-    for (let classNameElement of str) {
-      if (className[0] !== "edit") {
-        console.error(`class前缺少edit`);
-      } else if (className[2] && className[2]) {
-      }
-    }
-  }
-
   bindEvent() {
     this.editDoms.each((_, ele) => {
       $(ele).click(that => {
