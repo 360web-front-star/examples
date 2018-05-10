@@ -1,19 +1,22 @@
 "use strict";
 
 class V360 {
-  constructor() {
-    const list = $(".template").children();
-    this.edit = $(".edit");
+  constructor(options) {
+    if (options) {
+      this.edit = $(`${options.edit}`);
+      this.editDoms = $(`${options.template}`).children();
+    }
+
     // 类型
     this.type = {
       text: "text",
       textarea: "textarea",
       image: "image",
       images: "images",
-      list: "list"
+      list: "list",
+      link: "link"
     };
     // 获取全部可编辑直接子元素
-    this.editDoms = Array.from(list);
     this.bindEvent();
     this.changeView();
   }
@@ -29,7 +32,7 @@ class V360 {
   }
 
   bindEvent() {
-    this.editDoms.forEach(ele => {
+    this.editDoms.each((_, ele) => {
       $(ele).click(that => {
         const current = $(that.currentTarget);
         let data = current.data().edit;
@@ -62,11 +65,11 @@ class V360 {
         case this.type.image:
           this.renderImage(className, data[className]);
           break;
-        case this.type.images:
-          this.renderImages(className, data[className]);
+        case this.type.images || this.type.list:
+          this.renderListAndImages(className, data[className]);
           break;
         case this.type.list:
-          this.renderList(className, data[className]);
+          this.renderListAndImages(className, data[className]);
           break;
       }
     }
@@ -86,7 +89,8 @@ class V360 {
     let controlHtml = this.edit.html();
     let controlItem = `<div class="edit-item-type">
   <h4>${data}</h4>
-    <textarea cols="30" rows="10" placeholder="如果需要换行，可使用</br>" class="${className}-control"></textarea>
+    <textarea cols="30" rows="10" placeholder="如果需要换行，可使用</br>" 
+    class="${className}-control"></textarea>
   </div>`;
     controlHtml += controlItem;
     this.edit.html(controlHtml);
@@ -102,15 +106,13 @@ class V360 {
     this.edit.html(controlHtml);
   }
 
-  renderImages() {}
-
-  renderList(className, data) {
+  renderListAndImages(className, data) {
     let controlHtml = this.edit.html();
-    const list = Array.from($(`.${className} li`));
+    const list = $(`.${className} li`);
     let controlItemH = `<div class="edit-item-type">
   <h4>${data}</h4>`;
 
-    list.forEach((ele, index) => {
+    list.each(index => {
       controlItemH += `
       <input type="text" title=${data}-${index} class="${className}-control-${index}">
       `;
@@ -122,28 +124,47 @@ class V360 {
   changeView() {
     this.edit.on("input", ele => {
       const target = $(ele.target);
-      const str = target.attr("class");
+      const controlClass = target.attr("class");
       const controlVal = target.val();
-      let viewClass = str.substr(0, str.length - 8);
+      let viewClass = controlClass.substr(0, controlClass.length - 8);
+      const viewTarget = $(`.${viewClass}`);
 
-      console.log(viewClass);
+      switch (this.getType(viewClass)) {
+        case this.type.image:
+          viewTarget.attr("src", controlVal);
+          break;
 
-      if (this.getType(viewClass) === this.type.image) {
-        $(`.${viewClass}`).attr("src", controlVal);
-      } else if (this.getType(viewClass) === this.type.list) {
-        viewClass = str.substr(0, str.length - 10);
-        // TODO 安全验证！<script>注入
-        // 控制第几个input
-        const index = str.substr(str.length - 1, 1);
-        $(`.${viewClass}`)
-          .find("li")
-          .eq(index)
-          .text(controlVal);
-      } else {
-        $(`.${viewClass}`).html(controlVal);
+        case this.type.list:
+          viewClass = controlClass.substr(0, controlClass.length - 10);
+          // ！！！安全验证！ xss注入
+          // 控制第几个input
+          const index = controlClass.substr(controlClass.length - 1, 1);
+          $(`.${viewClass}`)
+            .find("li")
+            .eq(index)
+            .text(controlVal);
+          break;
+
+        case this.type.images:
+          viewClass = controlClass.substr(0, controlClass.length - 10);
+          // ！！！安全验证！ xss注入
+          // 控制第几个input
+          const index2 = controlClass.substr(controlClass.length - 1, 1);
+          $(`.${viewClass}`)
+            .find("li")
+            .eq(index2)
+            .attr("src", controlVal);
+          break;
+
+        default:
+          viewTarget.text(controlVal);
+          break;
       }
     });
   }
 }
 
-new V360();
+new V360({
+  edit: ".edit",
+  template: ".template"
+});
