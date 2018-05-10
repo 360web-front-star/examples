@@ -23,6 +23,8 @@
       3. list: 列表
       4. image: 单个图片
       5. imgages: 多图
+      6. link: 对单个a标签修改href
+      7. links: 同时对多个a标签修改href
 
       info: 修改内容的提示信息
    */

@@ -14,7 +14,8 @@ class V360 {
       image: "image",
       images: "images",
       list: "list",
-      link: "link"
+      link: "link",
+      links: "links"
     };
     // 获取全部可编辑直接子元素
     this.bindEvent();
@@ -54,23 +55,19 @@ class V360 {
   renderControl(data) {
     this.edit.html("");
     for (let className of Object.keys(data)) {
-      const type = className.split("-")[2];
-      switch (type) {
-        case this.type.text:
-          this.renderText(className, data[className]);
-          break;
-        case this.type.textarea:
-          this.renderTextarea(className, data[className]);
-          break;
-        case this.type.image:
-          this.renderImage(className, data[className]);
-          break;
-        case this.type.images || this.type.list:
-          this.renderListAndImages(className, data[className]);
-          break;
-        case this.type.list:
-          this.renderListAndImages(className, data[className]);
-          break;
+      const type = this.getType(className);
+      if (type === this.type.text || type === this.type.link) {
+        this.renderText(className, data[className]);
+      } else if (type === this.type.textarea) {
+        this.renderTextarea(className, data[className]);
+      } else if (type === this.type.image) {
+        this.renderText(className, data[className]);
+      } else if (
+        type === this.type.images ||
+        type === this.type.list ||
+        type === this.type.links
+      ) {
+        this.renderList(className, data[className]);
       }
     }
   }
@@ -89,24 +86,13 @@ class V360 {
     let controlHtml = this.edit.html();
     let controlItem = `<div class="edit-item-type">
   <h4>${data}</h4>
-    <textarea cols="30" rows="10" placeholder="如果需要换行，可使用</br>" 
-    class="${className}-control"></textarea>
+    <textarea cols="30" rows="10" class="${className}-control"></textarea>
   </div>`;
     controlHtml += controlItem;
     this.edit.html(controlHtml);
   }
 
-  renderImage(className, data) {
-    let controlHtml = this.edit.html();
-    let controlItem = `<div class="edit-item-type">
-    <h4>${data}</h4>
-     <input type="text" title=${data} class="${className}-control">
-  </div>`;
-    controlHtml += controlItem;
-    this.edit.html(controlHtml);
-  }
-
-  renderListAndImages(className, data) {
+  renderList(className, data) {
     let controlHtml = this.edit.html();
     const list = $(`.${className} li`);
     let controlItemH = `<div class="edit-item-type">
@@ -133,7 +119,6 @@ class V360 {
         case this.type.image:
           viewTarget.attr("src", controlVal);
           break;
-
         case this.type.list:
           viewClass = controlClass.substr(0, controlClass.length - 10);
           // ！！！安全验证！ xss注入
@@ -151,9 +136,24 @@ class V360 {
           // 控制第几个input
           const index2 = controlClass.substr(controlClass.length - 1, 1);
           $(`.${viewClass}`)
-            .find("li")
+            .find("li img")
             .eq(index2)
             .attr("src", controlVal);
+          break;
+
+        case this.type.link:
+          viewTarget.attr("href", controlVal);
+          break;
+
+        case this.type.links:
+          viewClass = controlClass.substr(0, controlClass.length - 10);
+          // ！！！安全验证！ xss注入
+          // 控制第几个input
+          const index3 = controlClass.substr(controlClass.length - 1, 1);
+          $(`.${viewClass}`)
+            .find("li a")
+            .eq(index3)
+            .attr("href", controlVal);
           break;
 
         default:

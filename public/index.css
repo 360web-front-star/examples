@@ -1,5 +1,6 @@
 .container .template {
   width: 80vw;
+  overflow: hidden;
   float: left;
 }
 .container .template >.header {
@@ -13,6 +14,6 @@
   line-height: 48px;
 }
 .container >.edit-container {
-  width: 20vw;
+  width: 18vw;
   float: right;
 }

@@ -1,0 +1,46 @@
+*{margin:0;padding:0;font-family: '微软雅黑';}
+
+li{list-style:none}
+
+img{vertical-align:top;border:none;}
+
+.banner{
+	width: 100%;
+	height: 700px;
+	background-color:lightblue;
+}
+.slider-list{
+	width: 100%;
+	height: 100%;
+	background-color: pink;
+	position: relative;
+}
+.slider-list ul{
+	width: 100%;
+	height: 100%;	
+  	list-style-type:none;
+  	position: relative;
+  	padding: 0;
+  	margin: 0;
+}
+.slider-list>ul>li{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+.slider-list>ul>li>img{
+	width: 100%;
+	height: 100%;
+}
+.slider-list__item,
+.slider-list__item--selected{
+  position: absolute;
+  transition: opacity 1s;
+  opacity: 0;
+  text-align: center;
+}
+.slider-list__item--selected{
+  transition: opacity 1s;
+  opacity: 1;
+}
+
